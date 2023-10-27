@@ -1,3 +1,4 @@
+import React from 'react';
 import Contacts from './Contacts/Contacts';
 
 const App = () => {
@@ -7,4 +8,5 @@ const App = () => {
     </div>
   );
 };
+
 export default App;

@@ -1,11 +1,17 @@
 import React, { useEffect } from 'react';
+
 import { nanoid } from 'nanoid';
 import { ContactForm } from '../ContactForm/ContactForm';
 import { ContactList } from '../ContactList/ContactList';
 import { Filter } from '../Filter/Filter';
+
 import css from './contacts.module.css';
+import {
+  addContact,
+  deleteContact,
+  setFilter,
+} from 'components/redux/contactsSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact, deleteContact, setFilter } from '../redux/contactsSlice';
 
 const Contacts = () => {
   const contacts = useSelector(state => state.contacts.items);
@@ -13,31 +19,25 @@ const Contacts = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // Завантаження контактів з локального сховища при завантаженні компоненту
     const storedContacts = localStorage.getItem('contacts');
     if (storedContacts) {
-      // Оновлення стану за допомогою Redux
       dispatch(addContact(JSON.parse(storedContacts)));
     }
   }, [dispatch]);
 
   useEffect(() => {
-    // Збереження/оновлення контактів у локальному сховищі
     localStorage.setItem('contacts', JSON.stringify(contacts));
   }, [contacts]);
 
   const handleAddContact = (name, number) => {
-    // Додавання контакту за допомогою Redux
     dispatch(addContact({ id: nanoid(), name, number }));
   };
 
   const handleFilterChange = e => {
-    // Оновлення фільтра за допомогою Redux
     dispatch(setFilter(e.target.value));
   };
 
   const handleDeleteContact = contactId => {
-    // Видалення контакту за допомогою Redux
     dispatch(deleteContact(contactId));
   };
 
@@ -62,5 +62,4 @@ const Contacts = () => {
     </div>
   );
 };
-
 export default Contacts;

@@ -7,7 +7,7 @@
 }
 .contactslistBtn:hover + .contactslistItem,
 .contactslistBtn:focus + .contactslistItem {
-  font-weight: bold; /* Устанавливаем жирный шрифт для .contactslistItem при наведении или фокусировке на .contactslistBtn */
+  font-weight: bold;
 }
 
 .contactList {
