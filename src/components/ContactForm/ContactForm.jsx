@@ -41,9 +41,9 @@ function ContactForm() {
   };
 
   return (
-    <div className={css.inputPhone}>
+    <div className={css.inputPhoneBox}>
       <h1>Phonebook</h1>
-      <form className={css.inputPhone} onSubmit={handleSubmit}>
+      <form className={css.inputForm} onSubmit={handleSubmit}>
         <>
           Name:
           <input
@@ -58,6 +58,7 @@ function ContactForm() {
         <>
           Number:
           <input
+            className={css.input}
             type="text"
             name="number"
             value={number}
