@@ -1,12 +1,14 @@
 import React from 'react';
-import Contacts from './Contacts/Contacts';
+import ContactForm from './ContactForm/ContactForm';
+import ContactList from './ContactList/ContactList';
 
-const App = () => {
+function App() {
   return (
     <div>
-      <Contacts />
+      <ContactForm />
+      <ContactList />
     </div>
   );
-};
+}
 
 export default App;

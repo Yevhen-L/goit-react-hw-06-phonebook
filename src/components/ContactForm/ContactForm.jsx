@@ -1,53 +1,77 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { nanoid } from 'nanoid';
+import { selectContacts } from 'Redux/selector';
+import { addContact } from 'Redux/contactsSlice';
 import css from './contactform.module.css';
 
-export class ContactForm extends Component {
-  state = {
+function ContactForm() {
+  const contacts = useSelector(selectContacts);
+  const [contact, setContact] = useState({
     name: '',
     number: '',
+  });
+  const { name, number } = contact;
+  const dispatch = useDispatch();
+
+  const handleChange = event => {
+    setContact({
+      ...contact,
+      id: nanoid(),
+      [event.target.name]: event.target.value,
+    });
   };
 
-  handleChange = e => {
-    const { name, value } = e.target;
-    this.setState({ [name]: value });
-  };
-
-  handleSubmit = e => {
+  const handleSubmit = e => {
     e.preventDefault();
-    const { name, number } = this.state;
-    const { contacts } = this.props;
 
-    if (contacts.some(contact => contact.name === name)) {
-      alert(`${name} is already in contacts.`);
-    } else {
-      this.props.onAddContact(name, number);
-      this.setState({ name: '', number: '' });
+    const isDuplicate = contacts.some(
+      contact => contact.name.toLowerCase() === name.toLowerCase()
+    );
+    if (isDuplicate) {
+      alert('This contact already exists in the phone book!!');
+      return;
     }
+
+    dispatch(addContact(contact));
+    setContact({
+      name: '',
+      number: '',
+    });
   };
 
-  render() {
-    return (
-      <form className={css.form} onSubmit={this.handleSubmit}>
-        <input
-          type="text"
-          name="name"
-          value={this.state.name}
-          onChange={this.handleChange}
-          placeholder="Enter name"
-          required
-        />
-        <input
-          type="tel"
-          name="number"
-          value={this.state.number}
-          onChange={this.handleChange}
-          placeholder="Enter phone number"
-          required
-        />
+  return (
+    <div className={css.inputPhone}>
+      <h1>Phonebook</h1>
+      <form className={css.inputPhone} onSubmit={handleSubmit}>
+        <>
+          Name:
+          <input
+            type="text"
+            name="name"
+            // pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+            value={name}
+            onChange={handleChange}
+            required
+          />
+        </>
+        <>
+          Number:
+          <input
+            type="text"
+            name="number"
+            value={number}
+            // pattern="\+?\d{1,4}?[ .\-\s]?\(?\d{1,3}?\)?[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,9}"
+            onChange={handleChange}
+            required
+          />
+        </>
         <button className={css.contactsformtBtn} type="submit">
-          Add Contact
+          Add contact
         </button>
       </form>
-    );
-  }
+    </div>
+  );
 }
+
+export default ContactForm;

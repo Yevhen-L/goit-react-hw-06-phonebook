@@ -1,27 +1,18 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import { configureStore } from '@reduxjs/toolkit';
-
-import './index.css';
+import ReactDOM from 'react-dom/client';
 import App from 'components/App';
-import reducers from 'components/reducers/reducers';
-
-const loggerMiddleware = store => next => action => {
-  console.log('dispatching', action);
-  return next(action);
-};
-
-const store = configureStore({
-  reducer: reducers,
-  middleware: getDefaultMiddleware =>
-    getDefaultMiddleware().concat(loggerMiddleware),
-});
+import store from 'Redux/store';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import { persistor } from 'Redux/store';
+import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <Provider store={store}>
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
-  </Provider>
+  <React.StrictMode>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <App />
+      </PersistGate>
+    </Provider>
+  </React.StrictMode>
 );
