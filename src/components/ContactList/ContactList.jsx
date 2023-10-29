@@ -26,12 +26,12 @@ const ContactList = () => {
   };
 
   return (
-    <div>
-      <h2>Contacts</h2>
+    <div className={css.filterBox}>
+      <h2 className={css.title}>Contacts</h2>
       <Filter />
-      <ul>
+      <ul className={css.contactList}>
         {filteredContacts.map(contact => (
-          <li key={contact.id}>
+          <li className={css.contactslistItem} key={contact.id}>
             {contact.name}: {contact.number}
             <button
               className={css.contactslistBtn}

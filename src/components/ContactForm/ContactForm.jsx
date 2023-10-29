@@ -41,8 +41,8 @@ function ContactForm() {
   };
 
   return (
-    <div className={css.inputPhoneBox}>
-      <h1>Phonebook</h1>
+    <div className={css.inputBox}>
+      <h1 className={css.title}>Phonebook</h1>
       <form className={css.inputForm} onSubmit={handleSubmit}>
         <>
           Name:
